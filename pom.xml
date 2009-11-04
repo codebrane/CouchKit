@@ -30,6 +30,21 @@
 		</repository>
   </repositories>
 
+  <distributionManagement>
+    <repository>
+      <id>source.uhi.ac.uk-repository</id>
+      <name>UHI Maven2 repository</name>
+      <url>dav:http://source.uhi.ac.uk/mvn</url>
+    </repository>
+
+    <snapshotRepository>
+   	  <id>source.uhi.ac.uk-snapshot-repository</id>
+      <name>UHI Maven2 snapshot repository</name>
+      <url>dav:http://source.uhi.ac.uk/snapshots</url>
+      <uniqueVersion>false</uniqueVersion>
+	 	</snapshotRepository>
+  </distributionManagement>
+
   <dependencies>
 	
 		<dependency>
@@ -86,6 +101,7 @@
             <include>**/TestSuite.java</include>
           </includes>
           <excludes>
+            <exclude>**/ConnectionTest.java</exclude>
             <exclude>**/CreateDBTest.java</exclude>
             <exclude>**/AddDocumentTest.java</exclude>
             <exclude>**/GetDocumentTest.java</exclude>
@@ -95,7 +111,49 @@
         </configuration>
       </plugin>
 
+
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-deploy-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>deploy</phase>
+            <goals>
+              <goal>deploy-file</goal>
+            </goals>
+            <configuration>
+              <!-- For SNAPSHOT, use this deployment -->
+              <repositoryId>source.uhi.ac.uk-snapshot-repository</repositoryId>
+              <url>http://source.uhi.ac.uk/snapshots</url>
+
+              <!-- For release, use this deployment -->
+              <!--
+              <repositoryId>source.uhi.ac.uk-repository</repositoryId>
+              <url>http://source.uhi.ac.uk/mvn</url>
+              -->
+
+              <packaging>jar</packaging>
+              <artifactId>${project.artifactId}</artifactId>
+              <groupId>${project.groupId}</groupId>
+              <version>${project.version}</version>
+              <uniqueVersion>false</uniqueVersion>
+              <pomFile>${basedir}/pom.xml</pomFile>
+              <file>${project.build.directory}/${project.artifactId}-${project.version}.jar</file>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
     </plugins>
+
+    <extensions>
+      <extension>
+        <groupId>org.apache.maven.wagon</groupId>
+        <artifactId>wagon-webdav</artifactId>
+        <version>1.0-beta-2</version>
+      </extension>
+    </extensions>
 
   </build>
 </project>
