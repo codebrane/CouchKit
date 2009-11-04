@@ -17,8 +17,6 @@ import java.io.FileReader;
  * @author alistair
  */
 public abstract class CouchDBTest {
-  protected static final String PROP_COUCHDBSERVER = "couchdb.server";
-
   protected static final String TEST_DB_NAME = "testdb";
 
   protected static final String TEST_DOC_ID = "111";
@@ -30,12 +28,14 @@ public abstract class CouchDBTest {
   protected static final String TEST_DOC_BODY = "I do like eating cakes you know!";
 
   protected static ResourceBundle props = null;
+  protected static String couchDBServer = null;
   protected static String testDocument = "";
   protected static CouchPotatoDocument cpTestDoc = null;
   
   @BeforeClass
   public static void startup() {
     props = ResourceBundle.getBundle("test");
+    couchDBServer = props.getString("couchdb.server");
     loadTestDocument();
     loadTestJSONDocument();
   }
