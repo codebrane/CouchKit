@@ -136,6 +136,10 @@ public class CouchPotato {
    * @return String representing the object as JSON
    */
   public String toJSON(Object obj) {
+    if (obj instanceof String) {
+      return (String)obj;
+    }
+    
     Gson gson = new Gson();
     return gson.toJson(obj);  
   }
