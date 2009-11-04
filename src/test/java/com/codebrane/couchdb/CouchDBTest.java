@@ -27,9 +27,13 @@ public abstract class CouchDBTest {
   protected static final int TEST_DOC_NUM_TAGS = 3;
   protected static final String TEST_DOC_BODY = "I do like eating cakes you know!";
 
+  // Definitions from /testdoc.json
+  protected static final String TEST_JSON_DOC_ID = "test_json_doc";
+  protected static final String TEST_JSON_DOC_REV = "1234";
+
   protected static ResourceBundle props = null;
   protected static String couchDBServer = null;
-  protected static String testDocument = "";
+  protected static String testJSON = null;
   protected static CouchPotatoDocument cpTestDoc = null;
   
   @BeforeClass
@@ -54,12 +58,13 @@ public abstract class CouchDBTest {
   }
 
   protected static void loadTestJSONDocument() {
+    testJSON = "";
     try {
       FileReader payloadFileReader = new FileReader(CouchDBTest.class.getResource("/testdoc.json").getPath());
       BufferedReader bReader = new BufferedReader(payloadFileReader);
       String buffer = "";
       while ((buffer = bReader.readLine()) != null) {
-        testDocument = testDocument + buffer;
+        testJSON = testJSON + buffer;
       }
       bReader.close();
       payloadFileReader.close();
