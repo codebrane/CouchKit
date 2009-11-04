@@ -1,0 +1,101 @@
+<?xml version="1.0"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0">
+  <modelVersion>4.0.0</modelVersion>
+
+  <name>couchpotato</name>
+  <description>Java interface to CouchPotato</description>
+  <groupId>com.codebrane</groupId>
+  <artifactId>jcouchpotato</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
+
+  <organization>
+    <name>codeBrane</name>
+    <url>http://codebrane.com/blog/</url>
+  </organization>
+
+  <inceptionYear>2009</inceptionYear>
+
+  <packaging>jar</packaging>
+  
+  <repositories>
+		<repository>
+			<id>gson</id>
+			<url>http://google-gson.googlecode.com/svn/mavenrepo</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+		</repository>
+  </repositories>
+
+  <dependencies>
+	
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>1.4</version>
+			<scope>compile</scope>
+		</dependency>
+
+    <dependency>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpclient</artifactId>
+      <version>4.0</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <!-- Required by HttpClient on Java 1.5 -->
+    <dependency>
+      <groupId>net.jcip</groupId>
+      <artifactId>jcip-annotations</artifactId>
+      <version>1.0</version>
+      <scope>compile</scope>
+    </dependency>
+    
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.4</version>
+      <scope>test</scope>
+    </dependency>
+
+  </dependencies>
+
+  <build>
+	
+    <plugins>
+	
+      <plugin>
+        <inherited>true</inherited>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.5</source>
+          <target>1.5</target>
+        </configuration>
+      </plugin>
+      
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>2.4.2</version>
+        <configuration>
+          <includes>
+            <include>**/TestSuite.java</include>
+          </includes>
+          <excludes>
+            <exclude>**/CreateDBTest.java</exclude>
+            <exclude>**/AddDocumentTest.java</exclude>
+            <exclude>**/GetDocumentTest.java</exclude>
+            <exclude>**/DeleteDocumentTest.java</exclude>
+            <exclude>**/DeleteDBTest.java</exclude>
+          </excludes>
+        </configuration>
+      </plugin>
+
+    </plugins>
+
+  </build>
+</project>
