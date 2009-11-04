@@ -4,6 +4,8 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.ResponseHandler;
+import org.apache.http.client.HttpResponseException;
+import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpDelete;
@@ -63,14 +65,10 @@ public class CouchPotato {
    *
    * @param databaseName The name of the database
    * @return CouchPotatoResult describing the result of the database operation
+   * @throws CouchPotatoException if an error occurs
    */
-  public CouchPotatoResult createDatabase(String databaseName) {
-    try {
-      return (CouchPotatoResult)potato(MODE_PUT, databaseName, null, CouchPotatoResult.class);
-    }
-    catch(CouchPotatoException cpe) {
-      return null;
-    }
+  public CouchPotatoResult createDatabase(String databaseName) throws CouchPotatoException {
+    return (CouchPotatoResult)potato(MODE_PUT, databaseName, null, CouchPotatoResult.class);
   }
 
   /**
@@ -78,14 +76,10 @@ public class CouchPotato {
    *
    * @param databaseName The name of the database
    * @return CouchPotatoResult describing the result of the database operation
+   * @throws CouchPotatoException if an error occurs
    */
-  public CouchPotatoResult deleteDatabase(String databaseName) {
-    try {
-      return (CouchPotatoResult)potato(MODE_DELETE, databaseName, null, CouchPotatoResult.class);
-    }
-    catch(CouchPotatoException cpe) {
-      return null;
-    }
+  public CouchPotatoResult deleteDatabase(String databaseName) throws CouchPotatoException {
+    return (CouchPotatoResult)potato(MODE_DELETE, databaseName, null, CouchPotatoResult.class);
   }
 
   /**
@@ -95,14 +89,10 @@ public class CouchPotato {
    * @param documentID The ID of the document to add
    * @param document The document to add
    * @return CouchPotatoResult describing the result of the database operation
+   * @throws CouchPotatoException if an error occurs
    */
-  public CouchPotatoResult addDocument(String databaseName, String documentID, Object document) {
-    try {
-      return (CouchPotatoResult)potato(MODE_PUT, databaseName + "/" + documentID, toJSON(document), CouchPotatoResult.class);
-    }
-    catch(CouchPotatoException cpe) {
-      return null;
-    }
+  public CouchPotatoResult addDocument(String databaseName, String documentID, Object document) throws CouchPotatoException {
+    return (CouchPotatoResult)potato(MODE_PUT, databaseName + "/" + documentID, toJSON(document), CouchPotatoResult.class);
   }
 
   /**
@@ -112,31 +102,31 @@ public class CouchPotato {
    * @param documentID The ID of the document to add
    * @param documentRev The rev of the document to delete
    * @return CouchPotatoResult describing the result of the database operation
+   * @throws CouchPotatoException if an error occurs
    */
-  public CouchPotatoResult deleteDocument(String databaseName, String documentID, String documentRev) {
-    try {
-      return (CouchPotatoResult)potato(MODE_DELETE, databaseName + "/" + documentID + "?rev=" + documentRev,
-                                       null, CouchPotatoResult.class);
-    }
-    catch(CouchPotatoException cpe) {
-      return null;
-    }
+  public CouchPotatoResult deleteDocument(String databaseName, String documentID, String documentRev) throws CouchPotatoException {
+    return (CouchPotatoResult)potato(MODE_DELETE, databaseName + "/" + documentID + "?rev=" + documentRev,
+                                     null, CouchPotatoResult.class);
   }
 
   /**
    * Gets a document from a database
    * @param databaseName The name of the database
    * @param documentID The ID of the document to get
+   * @param documentRev The rev of the document or null for the latest rev
    * @param documentClass The document class
    * @return Returns an Object that should be casted to the type of documentClass
+   * @throws CouchPotatoException if an error occurs
    */
-  public Object getDocument(String databaseName, String documentID, Class documentClass) {
-    try {
-      return potato(MODE_GET, databaseName + "/" + documentID, null, documentClass);
+  public Object getDocument(String databaseName, String documentID, String documentRev, Class documentClass) throws CouchPotatoException {
+    String url = null;
+    if (documentRev == null) {
+      url = databaseName + "/" + documentID;
     }
-    catch(CouchPotatoException cpe) {
-      return null;
+    else {
+      url = databaseName + "/" + documentID + "?rev=" + documentRev;
     }
+    return potato(MODE_GET, url, null, documentClass);
   }
 
   /**
@@ -188,8 +178,13 @@ public class CouchPotato {
     try {
       String responseBody = httpclient.execute(requestType, responseHandler);
       Gson gson = new Gson();
-      System.out.println(responseBody);
       return gson.fromJson(responseBody, clazz);
+    }
+    catch(HttpResponseException hre) {
+      throw new CouchPotatoException(hre);
+    }
+    catch(ClientProtocolException cpe) {
+      throw new CouchPotatoException(cpe);
     }
     catch(IOException ioe) {
       throw new CouchPotatoException(ioe);
