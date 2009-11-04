@@ -4,7 +4,8 @@ import org.junit.runners.Suite;
 import org.junit.runner.RunWith;
 
 @RunWith(Suite.class)
-@Suite.SuiteClasses( { CreateDBTest.class,
+@Suite.SuiteClasses( { ConnectionTest.class,
+                       CreateDBTest.class,
                        AddDocumentTest.class,
                        GetDocumentTest.class,
                        DeleteDocumentTest.class,
