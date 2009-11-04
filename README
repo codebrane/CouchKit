@@ -1,0 +1,32 @@
+CouchPotato
+===========
+
+o Introduction
+o Building CouchPotato
+o Usage
+o More information
+
+Introduction
+------------
+CouchPotato is a toolkit for working with CouchDB in multiple languages.
+Currently it supports Java and Ruby, with native Java bindings to CouchDB
+documents.
+
+Building CouchPotato
+--------------------
+To build the Java bindings, first edit the file:
+src/test/resources/test.properties
+and change couchdb.server to point to your CouchDB instance. Then build everything:
+mvn clean install
+The Ruby bindings are ready to use in src/main/ruby
+
+Usage
+-----
+To see how to use CouchPotato, have a look at the tests:
+src/test/java
+src/test/ruby
+
+More information
+----------------
+alistair@codebrane.com
+http://codebrane.com/blog/?p=1162
