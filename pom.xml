@@ -2,10 +2,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0">
   <modelVersion>4.0.0</modelVersion>
 
-  <name>couchpotato</name>
-  <description>Java interface to CouchPotato</description>
+  <name>JCouchKit</name>
+  <description>Java interface to CouchDB</description>
   <groupId>com.codebrane</groupId>
-  <artifactId>jcouchpotato</artifactId>
+  <artifactId>jcouchkit</artifactId>
   <version>1.0.0-SNAPSHOT</version>
 
   <organization>
