@@ -13,15 +13,15 @@ public class ConnectionTest extends CouchDBTest {
   @Test
   public void test() {
     System.out.println("ConnectionTest");
-    CouchPotato cp = new CouchPotato("http://localhost:11111");
+    CouchKit cp = new CouchKit("http://localhost:11111");
     cp.connect();
 
     boolean connected = true;
     try {
-      CouchPotatoResult cpResult = cp.createDatabase(TEST_DB_NAME);
+      CouchKitResult cpResult = cp.createDatabase(TEST_DB_NAME);
     }
-    catch(CouchPotatoException cpe) {
-      Assert.assertEquals(CouchPotatoException.CONNECTION_ERROR, cpe.getReason());
+    catch(CouchKitException cpe) {
+      Assert.assertEquals(CouchKitException.CONNECTION_ERROR, cpe.getReason());
       connected = false;
     }
 

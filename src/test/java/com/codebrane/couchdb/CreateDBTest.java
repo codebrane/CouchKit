@@ -13,14 +13,14 @@ public class CreateDBTest extends CouchDBTest {
   @Test
   public void test() {
     System.out.println("CreateDBTest");
-    CouchPotato cp = new CouchPotato(couchDBServer);
+    CouchKit cp = new CouchKit(couchDBServer);
     cp.connect();
     try {
-      CouchPotatoResult cpResult = cp.createDatabase(TEST_DB_NAME);
+      CouchKitResult cpResult = cp.createDatabase(TEST_DB_NAME);
       Assert.assertNotNull(cpResult);
       Assert.assertEquals("true", cpResult.ok);
     }
-    catch(CouchPotatoException cpe) {
+    catch(CouchKitException cpe) {
       fail(cpe.getMessage());
     }
     finally {

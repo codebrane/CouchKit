@@ -13,7 +13,7 @@ public class DeleteDBTest extends CouchDBTest {
   @Test
   public void test() {
     System.out.println("DeleteDBTest");
-    CouchPotato cp = new CouchPotato(couchDBServer);
+    CouchKit cp = new CouchKit(couchDBServer);
     cp.connect();
 
     boolean found = true;
@@ -21,8 +21,8 @@ public class DeleteDBTest extends CouchDBTest {
       // Try to delete a non existent database
       cp.deleteDatabase("nonexistentdb");
     }
-    catch(CouchPotatoException cpe) {
-      Assert.assertEquals(CouchPotatoException.OBJECT_NOT_FOUND, cpe.getReason());
+    catch(CouchKitException cpe) {
+      Assert.assertEquals(CouchKitException.OBJECT_NOT_FOUND, cpe.getReason());
       found = false;
     }
     if (found) {
@@ -31,11 +31,11 @@ public class DeleteDBTest extends CouchDBTest {
     }
 
     try {
-      CouchPotatoResult cpResult = cp.deleteDatabase(TEST_DB_NAME);
+      CouchKitResult cpResult = cp.deleteDatabase(TEST_DB_NAME);
       Assert.assertNotNull(cpResult);
       Assert.assertEquals("true", cpResult.ok);
     }
-    catch(CouchPotatoException cpe) {
+    catch(CouchKitException cpe) {
       fail(cpe.getMessage());
     }
     finally {

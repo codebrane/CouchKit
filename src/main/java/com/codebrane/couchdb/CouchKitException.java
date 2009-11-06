@@ -10,7 +10,7 @@ import java.io.IOException;
  *
  * @author alistair
  */
-public class CouchPotatoException extends Exception {
+public class CouchKitException extends Exception {
   /** Can't find a document */
   public static final int OBJECT_NOT_FOUND = -1;
   /** Can mean non existent rev for a document */
@@ -22,9 +22,9 @@ public class CouchPotatoException extends Exception {
 
   private int reason;
 
-  public CouchPotatoException() {}
+  public CouchKitException() {}
 
-  public CouchPotatoException(String message) {
+  public CouchKitException(String message) {
     super(message);
   }
 
@@ -32,7 +32,7 @@ public class CouchPotatoException extends Exception {
     return reason;
   }
 
-  public CouchPotatoException(Exception e) {
+  public CouchKitException(Exception e) {
     super(e);
 
     if (e instanceof HttpResponseException) {

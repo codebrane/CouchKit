@@ -13,16 +13,16 @@ public class GetDocumentTest extends CouchDBTest {
   @Test
   public void test() {
     System.out.println("GetDocumentTest");
-    CouchPotato cp = new CouchPotato(couchDBServer);
+    CouchKit cp = new CouchKit(couchDBServer);
     cp.connect();
 
     boolean found = true;
     try {
       // Try to get a non existent document
-      cp.getDocument(TEST_DB_NAME, "nonexistentid", null, CouchPotatoDocument.class);
+      cp.getDocument(TEST_DB_NAME, "nonexistentid", null, CouchKitDocument.class);
     }
-    catch(CouchPotatoException cpe) {
-      Assert.assertEquals(CouchPotatoException.OBJECT_NOT_FOUND, cpe.getReason());
+    catch(CouchKitException cpe) {
+      Assert.assertEquals(CouchKitException.OBJECT_NOT_FOUND, cpe.getReason());
       found = false;
     }
     if (found) {
@@ -33,10 +33,10 @@ public class GetDocumentTest extends CouchDBTest {
     found = true;
     try {
       // Try to get an existing document but with a non existent rev
-      cp.getDocument(TEST_DB_NAME, TEST_DOC_ID, "nonexistentrev", CouchPotatoDocument.class);
+      cp.getDocument(TEST_DB_NAME, TEST_DOC_ID, "nonexistentrev", CouchKitDocument.class);
     }
-    catch(CouchPotatoException cpe) {
-      Assert.assertEquals(CouchPotatoException.BAD_REQUEST, cpe.getReason());
+    catch(CouchKitException cpe) {
+      Assert.assertEquals(CouchKitException.BAD_REQUEST, cpe.getReason());
       found = false;
     }
     if (found) {
@@ -45,7 +45,7 @@ public class GetDocumentTest extends CouchDBTest {
     }
 
     try {
-      CouchPotatoDocument cpDoc = (CouchPotatoDocument)cp.getDocument(TEST_DB_NAME, TEST_DOC_ID, null, CouchPotatoDocument.class);
+      CouchKitDocument cpDoc = (CouchKitDocument)cp.getDocument(TEST_DB_NAME, TEST_DOC_ID, null, CouchKitDocument.class);
       Assert.assertNotNull(cpDoc);
       Assert.assertEquals(TEST_DOC_ID, cpDoc.getId());
       Assert.assertNotNull(cpDoc.getRev());
@@ -56,7 +56,7 @@ public class GetDocumentTest extends CouchDBTest {
       Assert.assertEquals(TEST_DOC_NUM_TAGS, cpDoc.getTags().length);
       Assert.assertEquals(TEST_DOC_BODY, cpDoc.getBody());
     }
-    catch(CouchPotatoException cpe) {
+    catch(CouchKitException cpe) {
       fail(cpe.getMessage());
     }
     finally {

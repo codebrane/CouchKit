@@ -34,7 +34,7 @@ public abstract class CouchDBTest {
   protected static ResourceBundle props = null;
   protected static String couchDBServer = null;
   protected static String testJSON = null;
-  protected static CouchPotatoDocument cpTestDoc = null;
+  protected static CouchKitDocument cpTestDoc = null;
   
   @BeforeClass
   public static void startup() {
@@ -49,7 +49,7 @@ public abstract class CouchDBTest {
   }
 
   public static void loadTestDocument() {
-    cpTestDoc = new CouchPotatoDocument();
+    cpTestDoc = new CouchKitDocument();
     cpTestDoc.setSubject(TEST_DOC_SUBJECT);
     cpTestDoc.setAuthor(TEST_DOC_AUTHOR);
     cpTestDoc.setPostedDate(TEST_DOC_POSTED_DATE);
